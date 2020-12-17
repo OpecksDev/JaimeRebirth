@@ -1,2 +1,5 @@
-/jaime/target
+/target
+
 .env
+
+Cargo.lock
