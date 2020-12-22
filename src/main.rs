@@ -12,6 +12,7 @@ use serenity::framework::standard::{
 
 use std::env;
 use dotenv;
+use std::net::TcpListener;
 
 #[group]
 #[commands(ping)]
@@ -28,11 +29,19 @@ async fn main() {
     //dotenv::dotenv().expect(".env file not found");
 
     let framework = StandardFramework::new()
-        .configure(|c| c.prefix("~")) // set the bot's prefix to "~"
+        .configure(|c| c.prefix("~")) 
         .group(&GENERAL_GROUP);
-
-    // Login with a bot token from the environment
     //let token = env::var("DISCORD_TOKEN").expect("token");
+    let token : String = env::var("DISCORD_TOKEN").unwrap();
+    let port : i32 = env::var("PORT")
+        .unwrap_or_else(|_| "3000".to_string())
+        .parse()
+        .expect("PORT must be a number");
+
+    let ip:String = format!("0.0.0.0:{}", port);
+
+    let listener = TcpListener::bind(ip).unwrap();
+
     let token = env::var("DISCORD_TOKEN").unwrap();
     let mut client = Client::builder(token)
         .event_handler(Handler)
