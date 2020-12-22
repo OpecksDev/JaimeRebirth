@@ -1,1 +1,1 @@
-web: ./target/release/jaime
+worker: ./target/release/jaime
