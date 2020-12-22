@@ -24,14 +24,16 @@ impl EventHandler for Handler {}
 
 #[tokio::main]
 async fn main() {
-    dotenv::dotenv().expect(".env file not found");
+    
+    //dotenv::dotenv().expect(".env file not found");
 
     let framework = StandardFramework::new()
         .configure(|c| c.prefix("~")) // set the bot's prefix to "~"
         .group(&GENERAL_GROUP);
 
     // Login with a bot token from the environment
-    let token = env::var("DISCORD_TOKEN").expect("token");
+    //let token = env::var("DISCORD_TOKEN").expect("token");
+    let token = env::var("DISCORD_TOKEN").unwrap();
     let mut client = Client::builder(token)
         .event_handler(Handler)
         .framework(framework)
@@ -43,6 +45,8 @@ async fn main() {
         println!("An error occurred while running the client: {:?}", why);
     }
 }
+
+
 
 #[command]
 async fn ping(ctx: &Context, msg: &Message) -> CommandResult {
